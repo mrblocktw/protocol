@@ -132,7 +132,7 @@ contract("IntergrationTest", function(accounts) {
     // 7) ensure that all users can withdraw their funds
     // 8) check the contract has no funds left in it
 
-    let numIterations = 5;
+    let numIterations = 500;
 
     let sponsor;
     let tokenHolder;
@@ -210,14 +210,17 @@ contract("IntergrationTest", function(accounts) {
     for (const tokenHolder of tokenHolders) {
       console.log("settleExpired for tokenHolder", tokenHolder);
       await expiringMultiParty.settleExpired({ from: tokenHolder });
+      assert.equal(await syntheticToken.balanceOf(tokenHolder), "0");
     }
 
     // Settle token sponsors
     for (const sponsor of sponsors) {
       console.log("settleExpired for sponsor", sponsor);
       await expiringMultiParty.settleExpired({ from: sponsor });
+      assert.equal(await syntheticToken.balanceOf(sponsor), "0");
     }
 
+    assert(await collateralToken.balanceOf(expiringMultiParty.address).toString(), "0");
     assert.equal(true, true);
   });
 });
