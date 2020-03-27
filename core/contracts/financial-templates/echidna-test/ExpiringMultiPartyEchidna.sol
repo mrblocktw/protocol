@@ -8,6 +8,7 @@ import "../implementation/ExpiringMultiParty.sol";
 import "../../common/implementation/ExpandedERC20.sol";
 import "../implementation/TokenFactory.sol";
 
+
 contract ExpiringMultiPartyEchinda is ExpiringMultiParty {
     ConstructorParams mockParams = ConstructorParams(
         true,
