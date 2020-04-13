@@ -135,7 +135,10 @@ contract Store is StoreInterface, Withdrawable {
      * @notice Sets a new weekly delay fee.
      * @param newWeeklyDelayFeePerPFC fee escalation per week of late fee payment.
      */
-    function setWeeklyDelayFeePerPFC(FixedPoint.Unsigned memory newWeeklyDelayFeePerPFC) public onlyRoleHolder(uint(Roles.Owner)) {
+    function setWeeklyDelayFeePerPFC(FixedPoint.Unsigned memory newWeeklyDelayFeePerPFC)
+        public
+        onlyRoleHolder(uint(Roles.Owner))
+    {
         weeklyDelayFeePerPFC = newWeeklyDelayFeePerPFC;
     }
 

@@ -7,7 +7,7 @@ contract("MessageStore", function(accounts) {
   const userAccount = accounts[0];
 
   before(async function() {
-    MessageStore = await MessageStore.new();
+    messageStore = await MessageStore.new();
   });
 
   it("Encrypt Decrypt", async function() {
@@ -43,10 +43,10 @@ contract("MessageStore", function(accounts) {
     const encryptedMessage = await encryptMessage(publicKey, message);
 
     // Store the message.
-    await MessageStore.storeMessage(topicHash, encryptedMessage, { from: userAccount });
+    await messageStore.storeMessage(topicHash, encryptedMessage, { from: userAccount });
 
     // Pull down the encrypted message and decrypt it.
-    const pulledMessage = await MessageStore.getMessage(userAccount, topicHash);
+    const pulledMessage = await messageStore.getMessage(userAccount, topicHash);
     const decryptedMessage = await decryptMessage(privateKey, pulledMessage);
 
     // decryptedMessage should match the plaintext message from above.
@@ -62,18 +62,18 @@ contract("MessageStore", function(accounts) {
     const message = identifier;
 
     // Send the message.
-    await MessageStore.storeMessage(topicHash, message, { from: userAccount });
-    let pulledMessage = await MessageStore.getMessage(userAccount, topicHash);
+    await messageStore.storeMessage(topicHash, message, { from: userAccount });
+    let pulledMessage = await messageStore.getMessage(userAccount, topicHash);
     assert.equal(pulledMessage, message);
 
     // User can remove their own message.
-    await MessageStore.removeMessage(topicHash, { from: userAccount });
-    pulledMessage = await MessageStore.getMessage(userAccount, topicHash);
+    await messageStore.removeMessage(topicHash, { from: userAccount });
+    pulledMessage = await messageStore.getMessage(userAccount, topicHash);
     assert.equal(pulledMessage, null);
 
     // Removing a message when none exists does not throw and does nothing
-    await MessageStore.removeMessage(topicHash, { from: userAccount });
-    pulledMessage = await MessageStore.getMessage(userAccount, topicHash);
+    await messageStore.removeMessage(topicHash, { from: userAccount });
+    pulledMessage = await messageStore.getMessage(userAccount, topicHash);
     assert.equal(pulledMessage, null);
   });
 });
