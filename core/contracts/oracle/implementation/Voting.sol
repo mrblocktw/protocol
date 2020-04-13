@@ -536,12 +536,12 @@ contract Voting is Testable, Ownable, OracleInterface, VotingInterface, MessageS
 
     /**
      * @notice Gets the queries that are being voted on this round.
-     * @return pendingRequests `PendingRequest` array containing identifiers
+     * @return activeRequests `PendingRequest` array containing identifiers
      * and timestamps for all pending requests.
      */
     // TODO(#969) Remove once prettier-plugin-solidity can handle the "override" keyword
     // prettier-ignore
-    function getActiveRequests() external override view returns (PendingRequest[] memory pendingRequests) {
+    function getActiveRequests() external override view returns (PendingRequest[] memory activeRequests) {
         uint blockTime = getCurrentTime();
         uint currentRoundId = voteTiming.computeCurrentRoundId(blockTime);
 
@@ -561,9 +561,9 @@ contract Voting is Testable, Ownable, OracleInterface, VotingInterface, MessageS
             }
         }
 
-        pendingRequests = new PendingRequest[](numUnresolved);
+        activeRequests = new PendingRequest[](numUnresolved);
         for (uint i = 0; i < numUnresolved; i++) {
-            pendingRequests[i] = unresolved[i];
+            activeRequests[i] = unresolved[i];
         }
     }
 
