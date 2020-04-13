@@ -664,7 +664,7 @@ class VotingSystem {
   async innerRunIteration(isProd) {
     const phase = await this.voting.getVotePhase();
     const roundId = await this.voting.getCurrentRoundId();
-    const pendingRequests = await this.voting.getPendingRequests();
+    const pendingRequests = await this.voting.getActiveRequests();
 
     let updates = [];
     let skipped = [];

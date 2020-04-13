@@ -1,13 +1,13 @@
 const { getRandomSignedInt, getRandomUnsignedInt } = require("../../../common/Random.js");
 const { decryptMessage, encryptMessage, deriveKeyPairFromSignatureTruffle } = require("../../../common/Crypto.js");
 
-const EncryptedStore = artifacts.require("EncryptedStore");
+const MessageStore = artifacts.require("MessageStore");
 
-contract("EncryptedStore", function(accounts) {
+contract("MessageStore", function(accounts) {
   const userAccount = accounts[0];
 
   before(async function() {
-    encryptedStore = await EncryptedStore.new();
+    MessageStore = await MessageStore.new();
   });
 
   it("Encrypt Decrypt", async function() {
@@ -43,10 +43,10 @@ contract("EncryptedStore", function(accounts) {
     const encryptedMessage = await encryptMessage(publicKey, message);
 
     // Store the message.
-    await encryptedStore.storeMessage(topicHash, encryptedMessage, { from: userAccount });
+    await MessageStore.storeMessage(topicHash, encryptedMessage, { from: userAccount });
 
     // Pull down the encrypted message and decrypt it.
-    const pulledMessage = await encryptedStore.getMessage(userAccount, topicHash);
+    const pulledMessage = await MessageStore.getMessage(userAccount, topicHash);
     const decryptedMessage = await decryptMessage(privateKey, pulledMessage);
 
     // decryptedMessage should match the plaintext message from above.
@@ -62,18 +62,18 @@ contract("EncryptedStore", function(accounts) {
     const message = identifier;
 
     // Send the message.
-    await encryptedStore.storeMessage(topicHash, message, { from: userAccount });
-    let pulledMessage = await encryptedStore.getMessage(userAccount, topicHash);
+    await MessageStore.storeMessage(topicHash, message, { from: userAccount });
+    let pulledMessage = await MessageStore.getMessage(userAccount, topicHash);
     assert.equal(pulledMessage, message);
 
     // User can remove their own message.
-    await encryptedStore.removeMessage(topicHash, { from: userAccount });
-    pulledMessage = await encryptedStore.getMessage(userAccount, topicHash);
+    await MessageStore.removeMessage(topicHash, { from: userAccount });
+    pulledMessage = await MessageStore.getMessage(userAccount, topicHash);
     assert.equal(pulledMessage, null);
 
     // Removing a message when none exists does not throw and does nothing
-    await encryptedStore.removeMessage(topicHash, { from: userAccount });
-    pulledMessage = await encryptedStore.getMessage(userAccount, topicHash);
+    await MessageStore.removeMessage(topicHash, { from: userAccount });
+    pulledMessage = await MessageStore.getMessage(userAccount, topicHash);
     assert.equal(pulledMessage, null);
   });
 });

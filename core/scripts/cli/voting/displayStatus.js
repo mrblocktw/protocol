@@ -21,7 +21,7 @@ const getResolvedPrices = require("./getResolvedVotesByRoundId");
  */
 const displayVoteStatus = async (web3, voting, designatedVoting) => {
   style.spinnerReadingContracts.start();
-  const pendingRequests = await voting.getPendingRequests();
+  const pendingRequests = await voting.getActiveRequests();
   const roundId = await voting.getCurrentRoundId();
   const roundPhase = (await voting.getVotePhase()).toString();
   // TODO: #901 Can't access Voting.rounds in latest deployed Contract https://etherscan.io/address/0xfe3c4f1ec9f5df918d42ef7ed3fba81cc0086c5f#readContract

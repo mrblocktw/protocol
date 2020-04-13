@@ -82,7 +82,7 @@ abstract contract VotingInterface {
      * @return pendingRequests `PendingRequest` array containing identifiers
      * and timestamps for all pending requests.
      */
-    function getPendingRequests() external virtual view returns (PendingRequest[] memory);
+    function getActiveRequests() external virtual view returns (PendingRequest[] memory);
 
     /**
      * @notice Returns the current voting phase, as a function of the current time.

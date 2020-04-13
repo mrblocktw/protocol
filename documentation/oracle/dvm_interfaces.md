@@ -74,8 +74,8 @@ This function returns two values:
 - The amount of margin currency that the contract should pay the Store Interface as the normal fee.
 
 - The amount of margin currency charged as a late penalty. This amount should generally be paid to a keeper as a reward
-for calling a public fee-payment method. If that isn't possible in the context of a particular financial contract, then
-it should be paid to the Store Interface in addition to the normal fee.
+  for calling a public fee-payment method. If that isn't possible in the context of a particular financial contract, then
+  it should be paid to the Store Interface in addition to the normal fee.
 
 ### `computeFinalFee`
 
@@ -120,7 +120,7 @@ this will return commit or reveal even if there is nothing to vote on this round
 Allows voters to check the current round id. This method isn't necessary for voters, but is
 provided for informational purposes. The round ID is unique for every round where at least one vote is cast.
 
-### `getPendingRequests`
+### `getActiveRequests`
 
 Returns the list of price requests that are currently being voted on. Voters should use this at the beginning of the
 round to determine what prices they need to look up and submit.
@@ -130,7 +130,7 @@ round to determine what prices they need to look up and submit.
 Submits a hash that binds a voter to a particular vote on a price request.
 
 This method takes the `identifier` and `time` that uniquely identify the price request. This call will only work if a
-price request for that `identifier` and `time` is returned from `getPendingRequests` and `getVotePhase` returns
+price request for that `identifier` and `time` is returned from `getActiveRequests` and `getVotePhase` returns
 `Commit`.
 
 It also takes the `hash` that the voter wishes to commit to. The `hash` is created by computing
@@ -141,10 +141,10 @@ later - otherwise, the commit cannot be revealed and the vote won't be counted.
 A few notes:
 
 - A voter can call this method multiple times during the commit period if they wish to change their commitment.
-It becomes locked in once the commit period ends.
+  It becomes locked in once the commit period ends.
 
 - There are other commit methods that allow voters to batch and/or store encrypted salts/prices on chain. Those are
-not detailed here because they are unnecessary to understand the core Voting Interface.
+  not detailed here because they are unnecessary to understand the core Voting Interface.
 
 ### `revealVote`
 

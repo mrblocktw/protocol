@@ -20,7 +20,7 @@ const networkUtils = require("../../../../common/PublicNetworks");
  */
 const commitVotes = async (web3, voting, designatedVoting) => {
   style.spinnerReadingContracts.start();
-  const pendingRequests = await voting.getPendingRequests();
+  const pendingRequests = await voting.getActiveRequests();
   const roundId = await voting.getCurrentRoundId();
   const roundPhase = (await voting.getVotePhase()).toString();
   // If the user is using the two key contract, then the account is the designated voting contract's address

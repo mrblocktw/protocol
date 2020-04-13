@@ -50,7 +50,7 @@ function ActiveRequests({ votingAccount, votingGateway }) {
     setCheckboxesChecked(old => ({ ...old, [index]: event.target.checked }));
   };
 
-  const pendingRequests = useCacheCall("Voting", "getPendingRequests");
+  const pendingRequests = useCacheCall("Voting", "getActiveRequests");
   const currentRoundId = useCacheCall("Voting", "getCurrentRoundId");
   const votePhase = useCacheCall("Voting", "getVotePhase");
 

@@ -8,7 +8,7 @@ pragma solidity ^0.6.0;
  * anyone can read stored messages, this contract is designed to store encrypted messages.
  * Only one message per topic is stored at any given time.
  */
-contract EncryptedStore {
+contract MessageStore {
     // Mapping from users to hashes, which act as keys for encrypted messages.
     // Note: the hash is designed to be a hash of the "subject" or "topic" of the message.
     mapping(address => mapping(bytes32 => bytes)) private stores;

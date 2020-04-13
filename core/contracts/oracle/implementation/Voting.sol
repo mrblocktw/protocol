@@ -8,7 +8,7 @@ import "../interfaces/FinderInterface.sol";
 import "../interfaces/OracleInterface.sol";
 import "../interfaces/VotingInterface.sol";
 import "../interfaces/IdentifierWhitelistInterface.sol";
-import "./EncryptedStore.sol";
+import "./MessageStore.sol";
 import "./Registry.sol";
 import "./ResultComputation.sol";
 import "./VoteTiming.sol";
@@ -22,7 +22,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
  * @title Voting system for Oracle.
  * @dev Handles receiving and resolving price requests via a commit-reveal voting scheme.
  */
-contract Voting is Testable, Ownable, OracleInterface, VotingInterface, EncryptedStore {
+contract Voting is Testable, Ownable, OracleInterface, VotingInterface, MessageStore {
     using FixedPoint for FixedPoint.Unsigned;
     using SafeMath for uint;
     using VoteTiming for VoteTiming.Data;
@@ -393,7 +393,7 @@ contract Voting is Testable, Ownable, OracleInterface, VotingInterface, Encrypte
     /**
      * @notice commits a vote and stores an encrypted version which can be later decrypted
      * to recover the voter's price & salt.
-     * @dev The encryption mechanism uses encrypt from a signature from a users price key. See `EncryptedStore.sol`
+     * @dev The encryption mechanism uses encrypt from a signature from a users price key. See `MessageStore.sol`
      * @param identifier unique price pair identifier. Eg: BTC/USD price pair.
      * @param time unix timestamp of for the price request.
      * @param hash keccak256 hash of the price you want to vote for and a `int salt`.
@@ -541,7 +541,7 @@ contract Voting is Testable, Ownable, OracleInterface, VotingInterface, Encrypte
      */
     // TODO(#969) Remove once prettier-plugin-solidity can handle the "override" keyword
     // prettier-ignore
-    function getPendingRequests() external override view returns (PendingRequest[] memory pendingRequests) {
+    function getActiveRequests() external override view returns (PendingRequest[] memory pendingRequests) {
         uint blockTime = getCurrentTime();
         uint currentRoundId = voteTiming.computeCurrentRoundId(blockTime);
 

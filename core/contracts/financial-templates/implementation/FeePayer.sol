@@ -164,7 +164,7 @@ abstract contract FeePayer is Testable {
         return StoreInterface(finder.getImplementationAddress(storeInterface));
     }
 
-    function _computeFinalFees() internal returns (FixedPoint.Unsigned memory finalFees) {
+    function _computeFinalFees() internal view returns (FixedPoint.Unsigned memory finalFees) {
         StoreInterface store = _getStore();
         return store.computeFinalFee(address(collateralCurrency));
     }

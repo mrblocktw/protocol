@@ -391,31 +391,31 @@ contract("Voting", function(accounts) {
     await supportedIdentifiers.addSupportedIdentifier(identifier2);
 
     // Pending requests should be empty for this new round.
-    assert.equal((await voting.getPendingRequests()).length, 0);
+    assert.equal((await voting.getActiveRequests()).length, 0);
 
     // Two stage call is required to get the expected return value from the second call.
     // The expected resolution time should be the end of the *next* round.
     await voting.requestPrice(identifier1, time1, { from: registeredContract });
 
     // Pending requests should be empty before the voting round begins.
-    assert.equal((await voting.getPendingRequests()).length, 0);
+    assert.equal((await voting.getActiveRequests()).length, 0);
 
     // Pending requests should be have a single entry now that voting has started.
     await moveToNextRound(voting);
-    assert.equal((await voting.getPendingRequests()).length, 1);
+    assert.equal((await voting.getActiveRequests()).length, 1);
 
     // Add a new request during the voting round.
     await voting.requestPrice(identifier2, time2, { from: registeredContract });
 
     // Pending requests should still be 1 because this request should not be voted on until next round.
-    assert.equal((await voting.getPendingRequests()).length, 1);
+    assert.equal((await voting.getActiveRequests()).length, 1);
 
     // Move to next round and roll the first request over.
     await moveToNextRound(voting);
 
     // Pending requests should be 2 because one vote was rolled over and the second was dispatched after the previous
     // voting round started.
-    assert.equal((await voting.getPendingRequests()).length, 2);
+    assert.equal((await voting.getActiveRequests()).length, 2);
 
     // Commit votes.
     const price1 = getRandomSignedInt();
@@ -430,7 +430,7 @@ contract("Voting", function(accounts) {
 
     // Pending requests should still have a single entry in the reveal phase.
     await moveToNextPhase(voting);
-    assert.equal((await voting.getPendingRequests()).length, 2);
+    assert.equal((await voting.getActiveRequests()).length, 2);
 
     // Reveal vote.
     await voting.revealVote(identifier1, time1, price1, salt1);
@@ -438,7 +438,7 @@ contract("Voting", function(accounts) {
 
     // Pending requests should be empty after the voting round ends and the price is resolved.
     await moveToNextRound(voting);
-    assert.equal((await voting.getPendingRequests()).length, 0);
+    assert.equal((await voting.getActiveRequests()).length, 0);
   });
 
   it("Supported identifiers", async function() {

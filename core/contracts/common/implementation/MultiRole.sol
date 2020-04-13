@@ -10,17 +10,17 @@ library Exclusive {
         return roleMembership.member == memberToCheck;
     }
 
-    function resetMember(RoleMembership storage roleMembership, address newMember) internal {
+    function resetExclusiveMember(RoleMembership storage roleMembership, address newMember) internal {
         require(newMember != address(0x0), "Cannot set an exclusive role to 0x0");
         roleMembership.member = newMember;
     }
 
-    function getMember(RoleMembership storage roleMembership) internal view returns (address) {
+    function getExclusiveMember(RoleMembership storage roleMembership) internal view returns (address) {
         return roleMembership.member;
     }
 
     function init(RoleMembership storage roleMembership, address initialMember) internal {
-        resetMember(roleMembership, initialMember);
+        resetExclusiveMember(roleMembership, initialMember);
     }
 }
 
@@ -34,17 +34,17 @@ library Shared {
         return roleMembership.members[memberToCheck];
     }
 
-    function addMember(RoleMembership storage roleMembership, address memberToAdd) internal {
+    function addSharedMember(RoleMembership storage roleMembership, address memberToAdd) internal {
         roleMembership.members[memberToAdd] = true;
     }
 
-    function removeMember(RoleMembership storage roleMembership, address memberToRemove) internal {
+    function removeSharedMember(RoleMembership storage roleMembership, address memberToRemove) internal {
         roleMembership.members[memberToRemove] = false;
     }
 
     function init(RoleMembership storage roleMembership, address[] memory initialMembers) internal {
         for (uint i = 0; i < initialMembers.length; i++) {
-            addMember(roleMembership, initialMembers[i]);
+            addSharedMember(roleMembership, initialMembers[i]);
         }
     }
 }
@@ -120,7 +120,7 @@ abstract contract MultiRole {
      * initialized, exclusive role.
      */
     function resetMember(uint roleId, address newMember) public onlyExclusive(roleId) onlyRoleManager(roleId) {
-        roles[roleId].exclusiveRoleMembership.resetMember(newMember);
+        roles[roleId].exclusiveRoleMembership.resetExclusiveMember(newMember);
     }
 
     /**
@@ -128,7 +128,7 @@ abstract contract MultiRole {
      * @dev Reverts if `roleId` does not represent an initialized, exclusive role.
      */
     function getMember(uint roleId) public view onlyExclusive(roleId) returns (address) {
-        return roles[roleId].exclusiveRoleMembership.getMember();
+        return roles[roleId].exclusiveRoleMembership.getExclusiveMember();
     }
 
     /**
@@ -137,7 +137,7 @@ abstract contract MultiRole {
      * managing role for `roleId`.
      */
     function addMember(uint roleId, address newMember) public onlyShared(roleId) onlyRoleManager(roleId) {
-        roles[roleId].sharedRoleMembership.addMember(newMember);
+        roles[roleId].sharedRoleMembership.addSharedMember(newMember);
     }
 
     /**
@@ -146,7 +146,7 @@ abstract contract MultiRole {
      * managing role for `roleId`.
      */
     function removeMember(uint roleId, address memberToRemove) public onlyShared(roleId) onlyRoleManager(roleId) {
-        roles[roleId].sharedRoleMembership.removeMember(memberToRemove);
+        roles[roleId].sharedRoleMembership.removeSharedMember(memberToRemove);
     }
 
     /**

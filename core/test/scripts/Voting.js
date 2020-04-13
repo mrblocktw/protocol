@@ -376,13 +376,13 @@ contract("scripts/Voting.js", function(accounts) {
     assert.isFalse(await voting.hasPrice(identifier, time));
 
     // Query pending requests to vote on during each phase.
-    let pendingVotes = await voting.getPendingRequests();
+    let pendingVotes = await voting.getActiveRequests();
     assert.equal(pendingVotes.length, 0, "There should be 0 pending requests during pre-commit phase");
     const votingSystem = new VotingScript.VotingSystem(voting, voter, [new MockNotifier()]);
 
     // Move to commit phase.
     await moveToNextRound(voting);
-    pendingVotes = await voting.getPendingRequests();
+    pendingVotes = await voting.getActiveRequests();
     assert.equal(
       pendingVotes.length,
       testTransactions,
@@ -397,7 +397,7 @@ contract("scripts/Voting.js", function(accounts) {
 
     // Move to reveal phase.
     await moveToNextPhase(voting);
-    pendingVotes = await voting.getPendingRequests();
+    pendingVotes = await voting.getActiveRequests();
     assert.equal(
       pendingVotes.length,
       testTransactions,
@@ -410,7 +410,7 @@ contract("scripts/Voting.js", function(accounts) {
 
     // End voting (commit & reveal) process.
     await moveToNextRound(voting);
-    pendingVotes = await voting.getPendingRequests();
+    pendingVotes = await voting.getActiveRequests();
     assert.equal(pendingVotes.length, 0, "There should be 0 pending requests during post-reveal phase");
 
     // Sanity check.

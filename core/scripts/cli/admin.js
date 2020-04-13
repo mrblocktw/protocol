@@ -31,7 +31,7 @@ async function decodeAllActiveGovernorProposals(artifacts, web3) {
   const voting = await Voting.deployed();
 
   // Search through pending requests to find active governor proposals.
-  const pendingRequests = await voting.getPendingRequests();
+  const pendingRequests = await voting.getActiveRequests();
   const adminRequests = [];
   for (const pendingRequest of pendingRequests) {
     const identifier = web3.utils.hexToUtf8(pendingRequest.identifier);

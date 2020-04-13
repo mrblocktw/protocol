@@ -142,7 +142,7 @@ contract("Governor", function(accounts) {
 
     // The proposals should show up in the pending requests in the *next* round.
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
 
     // Check that the proposals shows up and that the identifiers are constructed correctly.
     assert.equal(pendingRequests.length, 2);
@@ -182,7 +182,7 @@ contract("Governor", function(accounts) {
       }
     ]);
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote the proposal through.
@@ -217,7 +217,7 @@ contract("Governor", function(accounts) {
     ]);
 
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote the proposal through.
@@ -255,7 +255,7 @@ contract("Governor", function(accounts) {
     ]);
 
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote the proposal through.
@@ -299,7 +299,7 @@ contract("Governor", function(accounts) {
     ]);
 
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote the proposal through.
@@ -333,7 +333,7 @@ contract("Governor", function(accounts) {
       }
     ]);
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote the proposal through.
@@ -369,7 +369,7 @@ contract("Governor", function(accounts) {
       }
     ]);
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote the proposal through.
@@ -406,7 +406,7 @@ contract("Governor", function(accounts) {
       }
     ]);
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote down the proposal.
@@ -441,7 +441,7 @@ contract("Governor", function(accounts) {
       }
     ]);
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote on the proposal, but don't reach the GAT.
@@ -479,7 +479,7 @@ contract("Governor", function(accounts) {
       }
     ]);
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
 
     // Vote the proposal through.
@@ -522,7 +522,7 @@ contract("Governor", function(accounts) {
 
     // Vote the proposal through.
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
     const vote = toWei("1");
     const salt = getRandomUnsignedInt();
@@ -559,7 +559,7 @@ contract("Governor", function(accounts) {
 
     // Vote the proposal through.
     await moveToNextRound(voting);
-    const pendingRequests = await voting.getPendingRequests();
+    const pendingRequests = await voting.getActiveRequests();
     const request = pendingRequests[0];
     const vote = toWei("1");
     const salt = getRandomUnsignedInt();
